@@ -9,7 +9,6 @@ const authMiddle = async (req, res, next) => {
             process.env.jwt_secret
         );
         req.body.userId = decryptedUserId.userId;
-
         next();
     } catch (error) {
         console.log(error.message);

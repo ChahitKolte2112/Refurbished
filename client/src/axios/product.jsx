@@ -27,3 +27,38 @@ export const GetallProducts = async () => {
         return error.message;
     }
 };
+export const EditProducts = async (payload) => {
+   
+    try {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(
+                    "tokenRefurbised"
+                )}`,
+            },
+        };
+        const response = await API_URL.put(
+            `/api/products/${payload._id}`,
+            payload,
+            config
+        );
+        return response.data;
+    } catch (error) {
+        return error.message;
+    }
+};
+export const DeleteProducts = async (id) => {
+    try {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(
+                    "tokenRefurbised"
+                )}`,
+            },
+        };
+        const response = await API_URL.delete(`/api/products/${id}`, config);
+        return response.data;
+    } catch (error) {
+        return error.message;
+    }
+};

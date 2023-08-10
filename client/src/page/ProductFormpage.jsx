@@ -3,12 +3,21 @@ import React, { useRef, useState } from "react";
 import { Tabs } from "antd";
 import TabPane from "antd/es/tabs/TabPane";
 import ProductDetails from "./ProductDetails";
-const ProductFormpage = ({ showProductform, setShowProductform }) => {
+const ProductFormpage = ({
+    showProductform,
+    setShowProductform,
+    selectedproduct,
+}) => {
     const items = [
         {
             key: "1",
             label: "General",
-            children: <ProductDetails setShowProductform={setShowProductform}/>,
+            children: (
+                <ProductDetails
+                    selectedproduct={selectedproduct}
+                    setShowProductform={setShowProductform}
+                />
+            ),
         },
         {
             key: "2",

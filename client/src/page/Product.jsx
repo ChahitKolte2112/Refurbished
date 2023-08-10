@@ -9,9 +9,11 @@ import { loaderAction } from "../redux/loaderSlice";
 import { message } from "antd";
 const Product = () => {
     const [product, setproduct] = useState(null);
+    const [selectedproduct, setSelectedproduct] = useState(null);
     const [showProductform, setShowProductform] = useState(false);
     const dispatch = useDispatch();
     const onClickHandler = () => {
+        setSelectedproduct(null);
         setShowProductform((prev) => {
             return !prev;
         });
@@ -62,9 +64,16 @@ const Product = () => {
             dataIndex: "action",
             render: (text, record) => {
                 return (
-                    <div className="flex gap-5   items-center">
+                    <div className="flex gap-5  items-center">
                         <i className="ri-delete-bin-line"></i>
-                        <i className="ri-pencil-line"></i>
+                        <i
+                            className="ri-pencil-line"
+                            onClick={() => {
+                                setShowProductform(true);
+
+                                setSelectedproduct(record);
+                            }}
+                        ></i>
                     </div>
                 );
             },
@@ -72,7 +81,6 @@ const Product = () => {
     ];
     useEffect(() => {
         getproduct();
-        console.log(product);
     }, []);
     return (
         <div>
@@ -90,6 +98,7 @@ const Product = () => {
                 <ProductFormpage
                     showProductform={showProductform}
                     setShowProductform={onClickHandler}
+                    selectedproduct={selectedproduct}
                 />
             )}
         </div>

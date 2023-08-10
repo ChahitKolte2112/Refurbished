@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { AddProduct } from "../axios/product";
+import { AddProduct, EditProducts } from "../axios/product";
 import { useDispatch } from "react-redux";
 import { loaderAction } from "../redux/loaderSlice";
 import { message } from "antd";
@@ -43,11 +43,18 @@ const ProductDetails = (props) => {
         }));
     };
     const formsubmithandler = async (event) => {
-        console.log("working");
         event.preventDefault();
         try {
             dispatch(loaderAction.Setloader(true));
-            const response = await AddProduct(formData);
+            let response;
+            console.log(props.selectedproduct);
+            if (!props.selectedproduct) {
+               
+                response = await AddProduct(formData);
+            } else {
+                response = await EditProducts(formData);
+            }
+
             if (response.success) {
                 message.success(response.message);
                 props.setShowProductform();
@@ -57,8 +64,33 @@ const ProductDetails = (props) => {
             dispatch(loaderAction.Setloader(false));
         } catch (error) {
             message.error(error.message);
+            dispatch(loaderAction.Setloader(false));
         }
     };
+    console.log(props.selectedproduct);
+    useEffect(() => {
+        if (props.selectedproduct) {
+            setFormData((prev) => {
+                return { ...prev, ...props.selectedproduct };
+            });
+        } else {
+            setFormData((prev) => {
+                return {
+                    ...prev,
+                    name: "",
+                    description: "",
+                    price: "",
+                    category: "electronics",
+                    age: "",
+                    billAvailable: false,
+                    warrantyAvailable: false,
+                    accessoriesAvailable: false,
+                    boxAvailable: false,
+                };
+            });
+        }
+    }, [props.selectedproduct]);
+
     return (
         <div className="mt-1 p-3 ">
             <form onSubmit={formsubmithandler}>
@@ -137,7 +169,9 @@ const ProductDetails = (props) => {
                     ))}
                 </div>
                 <br />
-                <button type="submit">Submit</button>
+                <button type="submit">
+                    {props.selectedproduct ? "EDIT" : "SUBMIT"}
+                </button>
             </form>
         </div>
     );
