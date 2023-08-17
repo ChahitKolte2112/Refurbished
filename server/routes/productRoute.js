@@ -5,7 +5,7 @@ const { response } = require("express");
 router.post("/add-product", authMiddle, async (req, res) => {
     try {
         const addseller = { ...req.body, seller: req.body.userId };
-        console.log(addseller);
+
         const newProduct = new Product(addseller);
         await newProduct.save();
         return res.status(200).json({
@@ -33,7 +33,7 @@ router.get("/get-product", async (req, res) => {
         });
     }
 });
-router.put("edit-product/:id", authMiddle, async (req, res) => {
+router.put("/edit-product/:id", authMiddle, async (req, res) => {
     console.log(req.params.id, "req uest params id");
     try {
         const product = await Product.findById(req.params.id);
@@ -54,16 +54,15 @@ router.put("edit-product/:id", authMiddle, async (req, res) => {
     } catch (error) {
         return res.status(500).send({
             success: false,
-            message: error.message,
+            message: "somthing is wrong",
         });
     }
 });
 router.delete("/delete-product/:id", authMiddle, async (req, res) => {
     try {
-        
         const result = await Product.findByIdAndDelete(req.params.id);
 
-        return res.json({
+        return res.status(200).json({
             success: true,
             message: "Product deleted successfully",
         });

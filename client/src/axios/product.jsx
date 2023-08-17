@@ -28,7 +28,6 @@ export const GetallProducts = async () => {
     }
 };
 export const EditProducts = async (payload) => {
-   
     try {
         const config = {
             headers: {
@@ -38,7 +37,7 @@ export const EditProducts = async (payload) => {
             },
         };
         const response = await API_URL.put(
-            `/api/products/${payload._id}`,
+            `/api/products/edit-product/${payload._id}`,
             payload,
             config
         );
@@ -56,7 +55,8 @@ export const DeleteProducts = async (id) => {
                 )}`,
             },
         };
-        const response = await API_URL.delete(`/api/products/${id}`, config);
+
+        const response = await API_URL.delete(`/api/products/delete-product/${id}`, config);
         return response.data;
     } catch (error) {
         return error.message;

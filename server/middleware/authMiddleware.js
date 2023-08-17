@@ -8,6 +8,7 @@ const authMiddle = async (req, res, next) => {
             JSON.parse(token),
             process.env.jwt_secret
         );
+        console.log(decryptedUserId.userId);
         req.body.userId = decryptedUserId.userId;
         next();
     } catch (error) {

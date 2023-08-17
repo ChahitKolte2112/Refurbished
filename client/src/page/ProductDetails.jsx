@@ -47,9 +47,8 @@ const ProductDetails = (props) => {
         try {
             dispatch(loaderAction.Setloader(true));
             let response;
-            console.log(props.selectedproduct);
+
             if (!props.selectedproduct) {
-               
                 response = await AddProduct(formData);
             } else {
                 response = await EditProducts(formData);
@@ -67,7 +66,7 @@ const ProductDetails = (props) => {
             dispatch(loaderAction.Setloader(false));
         }
     };
-    console.log(props.selectedproduct);
+
     useEffect(() => {
         if (props.selectedproduct) {
             setFormData((prev) => {
